@@ -2162,6 +2162,10 @@ def solve_linear_system(system, *symbols, **flags):
     i, m = 0, matrix.cols - 1  # don't count augmentation
 
     while i < matrix.rows:
+
+        if not matrix[i, m].free_symbols and matrix[i, m].evalf() <= flags.get('tolerance', 0):
+            matrix[i, m] = 0
+
         if i == m:
             # an overdetermined system
             if any(matrix[i:, m]):
